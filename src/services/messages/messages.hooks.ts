@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import messagesModifyContextData from '../../hooks/messages-modify-context-data';
+import isUserOwnerOfData from '../../hooks/is-user-owner-of-data';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -11,8 +12,8 @@ export default {
     get: [],
     create: [messagesModifyContextData()],
     update: [],
-    patch: [],
-    remove: []
+    patch: [isUserOwnerOfData()],
+    remove: [isUserOwnerOfData()]
   },
 
   after: {
