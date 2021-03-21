@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import channelsModifyContextData from '../../hooks/channels-modify-context-data';
+import createMemberAfterCreateChannel from '../../hooks/create-member-after-create-channel';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -19,7 +20,7 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [createMemberAfterCreateChannel()],
     update: [],
     patch: [],
     remove: []
