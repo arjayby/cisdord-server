@@ -14,6 +14,10 @@ export default function (app: Application): typeof Model {
         notEmpty: true,
       }
     },
+    membersCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
     shortId: {
       type: DataTypes.STRING,
       allowNull: false,
