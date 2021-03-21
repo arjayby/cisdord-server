@@ -16,7 +16,7 @@ export default function (app: Application): typeof Model {
     },
     membersCount: {
       type: DataTypes.INTEGER,
-      defaultValue: 1,
+      defaultValue: 0,
     },
     shortId: {
       type: DataTypes.STRING,
