@@ -44,6 +44,7 @@ export default function (app: Application): typeof Model {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     
     channels.hasMany(models.messages);
+    channels.hasMany(models.members);
     channels.belongsTo(models.users);
   };
 
