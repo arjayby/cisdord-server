@@ -52,6 +52,7 @@
     "cors": "^2.8.5",
     "feathers-sequelize": "^6.2.0",
     "helmet": "^4.4.1",
+    "nanoid": "^3.1.22",
     "pg": "^8.5.1",
     "sequelize": "^6.5.1",
     "serve-favicon": "^2.5.0",
