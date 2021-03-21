@@ -3,7 +3,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Application } from '../declarations';
 import { HookReturn } from 'sequelize/types/lib/hooks';
-import { nanoid } from 'nanoid';
 
 export default function (app: Application): typeof Model {
   const sequelizeClient: Sequelize = app.get('sequelizeClient');
@@ -17,8 +16,11 @@ export default function (app: Application): typeof Model {
     },
     shortId: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: true,
-      defaultValue: nanoid(10),
+      validate: {
+        notEmpty: true,
+      }
     },
     userId: {
       type: DataTypes.INTEGER,
