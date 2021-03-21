@@ -9,11 +9,13 @@ export default function (app: Application): typeof Model {
   const members = sequelizeClient.define('members', {
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: 'compositeIndex'
     },
     channelId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: 'compositeIndex'
     }
   }, {
     hooks: {
