@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import channelsModifyContextData from '../../hooks/channels-modify-context-data';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -8,7 +9,7 @@ export default {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [channelsModifyContextData()],
     update: [],
     patch: [],
     remove: []
