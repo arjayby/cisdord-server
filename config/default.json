@@ -35,5 +35,5 @@
       }
     }
   },
-  "postgres": "postgres://postgres:@localhost:5432/cisdord_server"
+  "postgres": "postgres://postgres:postgres@localhost:5432/cisdord"
 }
