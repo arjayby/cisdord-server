@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import { disallow } from 'feathers-hooks-common';
 import membersModifyContextData from '../../hooks/members-modify-context-data';
 import incrementMembersCount from '../../hooks/increment-members-count';
 import isUserOwnerOfData from '../../hooks/is-user-owner-of-data';
@@ -12,7 +13,7 @@ export default {
     find: [],
     get: [],
     create: [membersModifyContextData()],
-    update: [],
+    update: [disallow()],
     patch: [isUserOwnerOfData()],
     remove: [isUserOwnerOfData()]
   },

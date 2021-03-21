@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import { disallow } from 'feathers-hooks-common';
 import channelsModifyContextData from '../../hooks/channels-modify-context-data';
 import createMemberAfterCreateChannel from '../../hooks/create-member-after-create-channel';
 import isUserOwnerOfData from '../../hooks/is-user-owner-of-data';
@@ -12,7 +13,7 @@ export default {
     find: [],
     get: [],
     create: [channelsModifyContextData()],
-    update: [],
+    update: [disallow()],
     patch: [isUserOwnerOfData()],
     remove: [isUserOwnerOfData()]
   },

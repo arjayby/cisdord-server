@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import { disallow } from 'feathers-hooks-common';
 import messagesModifyContextData from '../../hooks/messages-modify-context-data';
 import isUserOwnerOfData from '../../hooks/is-user-owner-of-data';
 // Don't remove this comment. It's needed to format import lines nicely.
@@ -11,7 +12,7 @@ export default {
     find: [],
     get: [],
     create: [messagesModifyContextData()],
-    update: [],
+    update: [disallow()],
     patch: [isUserOwnerOfData()],
     remove: [isUserOwnerOfData()]
   },
