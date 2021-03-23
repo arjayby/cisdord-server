@@ -1,6 +1,6 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
-import { disallow } from 'feathers-hooks-common';
+import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common';
 import isUserOwnerOfData from '../../hooks/is-user-owner-of-data';
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -14,7 +14,12 @@ export default {
     get: [ authenticate('jwt') ],
     create: [ hashPassword('password') ],
     update: [ hashPassword('password'),  authenticate('jwt'), disallow('external') ],
-    patch: [hashPassword('password'), authenticate('jwt'), isUserOwnerOfData()],
+    patch: [
+      hashPassword('password'),
+      authenticate('jwt'),
+      isUserOwnerOfData(),
+      iff(isProvider('external'), preventChanges(true, 'githubId', 'createdAt'))
+    ],
     remove: [authenticate('jwt'), isUserOwnerOfData()]
   },
 
