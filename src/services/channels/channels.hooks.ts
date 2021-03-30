@@ -9,16 +9,23 @@ const { authenticate } = authentication.hooks;
 
 export default {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [],
     find: [],
     get: [],
-    create: [channelsModifyContextData()],
+    create: [
+      authenticate('jwt'),
+      channelsModifyContextData()
+    ],
     update: [disallow()],
     patch: [
+      authenticate('jwt'),
       isUserOwnerOfData(),
       iff(isProvider('external'), preventChanges(true, 'userId', 'shortId', 'membersCount', 'createdAt'))
     ],
-    remove: [isUserOwnerOfData()]
+    remove: [
+      authenticate('jwt'),
+      isUserOwnerOfData()
+    ]
   },
 
   after: {
