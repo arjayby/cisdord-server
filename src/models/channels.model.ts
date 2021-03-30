@@ -14,6 +14,14 @@ export default function (app: Application): typeof Model {
         notEmpty: true,
       }
     },
+    description: {
+      type: DataTypes.STRING,
+      defaultValue: '',
+    },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
     membersCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
