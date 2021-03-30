@@ -21,6 +21,13 @@ export default function (app: Application): typeof Model {
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
+      validate: {
+        isSpecificLength(value: string[]) {
+          if (value.length > 5) {
+            throw new Error('Validation isSpecificLength on tags failed. Tags can only have up to 5 items.');
+          }
+        },
+      }
     },
     membersCount: {
       type: DataTypes.INTEGER,
