@@ -1,17 +1,19 @@
+import assert from 'assert';
 import app from '../src/app';
 
 describe('authentication', () => {
   it('registered the authentication service', () => {
-    expect(app.service('authentication')).toBeTruthy();
+    assert.ok(app.service('authentication'));
   });
   
   describe('local strategy', () => {
     const userInfo = {
-      email: 'someone@example.com',
+      name: 'Test User',
+      username: 'test_user',
       password: 'supersecret'
     };
 
-    beforeAll(async () => {
+    before(async () => {
       try {
         await app.service('users').create(userInfo);
       } catch (error) {
@@ -25,8 +27,8 @@ describe('authentication', () => {
         ...userInfo
       }, {});
       
-      expect(accessToken).toBeTruthy();
-      expect(user).toBeTruthy();
+      assert.ok(accessToken, 'Created access token for user');
+      assert.ok(user, 'Includes user in authentication data');
     });
   });
 });

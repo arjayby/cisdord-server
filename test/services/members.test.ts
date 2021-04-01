@@ -1,8 +1,10 @@
+import assert from 'assert';
 import app from '../../src/app';
 
 describe('\'members\' service', () => {
   it('registered the service', () => {
     const service = app.service('members');
-    expect(service).toBeTruthy();
+
+    assert.ok(service, 'Registered the service');
   });
 });
