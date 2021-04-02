@@ -15,10 +15,12 @@ export default {
     create: [membersModifyContextData()],
     update: [disallow()],
     patch: [
-      isUserOwnerOfData(),
+      iff(isProvider('external'), isUserOwnerOfData()),
       iff(isProvider('external'), preventChanges(true, 'userId', 'channelId', 'createdAt'))
     ],
-    remove: [isUserOwnerOfData()]
+    remove: [
+      iff(isProvider('external'), isUserOwnerOfData())
+    ]
   },
 
   after: {

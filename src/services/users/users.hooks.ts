@@ -17,10 +17,13 @@ export default {
     patch: [
       hashPassword('password'),
       authenticate('jwt'),
-      isUserOwnerOfData(),
+      iff(isProvider('external'), isUserOwnerOfData()),
       iff(isProvider('external'), preventChanges(true, 'githubId', 'createdAt'))
     ],
-    remove: [authenticate('jwt'), isUserOwnerOfData()]
+    remove: [
+      authenticate('jwt'),
+      iff(isProvider('external'), isUserOwnerOfData())
+    ]
   },
 
   after: {

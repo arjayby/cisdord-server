@@ -19,12 +19,12 @@ export default {
     update: [disallow()],
     patch: [
       authenticate('jwt'),
-      isUserOwnerOfData(),
+      iff(isProvider('external'), isUserOwnerOfData()),
       iff(isProvider('external'), preventChanges(true, 'userId', 'shortId', 'membersCount', 'createdAt'))
     ],
     remove: [
       authenticate('jwt'),
-      isUserOwnerOfData()
+      iff(isProvider('external'), isUserOwnerOfData())
     ]
   },
 
