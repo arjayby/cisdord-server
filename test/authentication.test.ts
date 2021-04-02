@@ -7,15 +7,11 @@ describe('authentication', () => {
   });
   
   describe('local strategy', () => {
-    const userInfo = {
-      name: 'Test User',
-      username: 'test_user',
-      password: 'supersecret'
-    };
+    const mockUser = app.get('users')[0];
 
     before(async () => {
       try {
-        await app.service('users').create(userInfo);
+        await app.service('users').create(mockUser);
       } catch (error) {
         // Do nothing, it just means the user already exists and can be tested
       }
@@ -24,7 +20,8 @@ describe('authentication', () => {
     it('authenticates user and creates accessToken', async () => {
       const { user, accessToken } = await app.service('authentication').create({
         strategy: 'local',
-        ...userInfo
+        username: mockUser.username,
+        password: mockUser.password,
       }, {});
       
       assert.ok(accessToken, 'Created access token for user');
