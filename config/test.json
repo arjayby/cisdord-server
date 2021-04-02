@@ -1,1 +1,10 @@
-{}
+{
+  "postgres": "postgres://postgres:postgres@localhost:5432/cisdord_test",
+  "users": [
+    {
+      "name": "Test User",
+      "username": "test_user",
+      "password": "supersecret"
+    }
+  ]
+}
