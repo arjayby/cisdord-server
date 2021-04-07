@@ -1,6 +1,7 @@
 import '@feathersjs/transport-commons';
 import { HookContext } from '@feathersjs/feathers';
 import { Application } from './declarations';
+import { MessageType } from './types/message';
 
 export default function(app: Application): void {
   if(typeof app.channel !== 'function') {
@@ -13,7 +14,7 @@ export default function(app: Application): void {
     app.channel('anonymous').join(connection);
   });
 
-  app.on('login', (authResult: any, { connection }: any): void => {
+  app.on('login', async (authResult: any, { connection }: any): Promise<void> => {
     // connection can be undefined if there is no
     // real-time connection, e.g. when logging in via REST
     if(connection) {
@@ -27,7 +28,19 @@ export default function(app: Application): void {
       app.channel('authenticated').join(connection);
 
       // Channels can be named anything and joined on any condition 
-      
+      const members = await app.service('members').find({
+        query: {
+          userId: connection.user.id,
+        },
+        paginate: false,
+      });
+
+      if (Array.isArray(members)) {
+        members.forEach((member) => {
+          app.channel(`channels/${member.channelId}`).join(connection);
+        });
+      }
+    
       // E.g. to send real-time events only to admins use
       // if(user.isAdmin) { app.channel('admins').join(connection); }
 
@@ -45,8 +58,6 @@ export default function(app: Application): void {
     // Here you can add event publishers to channels set up in `channels.ts`
     // To publish only for a specific event use `app.publish(eventname, () => {})`
 
-    console.log('Publishing all events to all authenticated users. See `channels.ts` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
-
     // e.g. to publish all service events to all authenticated users use
     return app.channel('authenticated');
   });
@@ -55,6 +66,11 @@ export default function(app: Application): void {
   // e.g. the publish the `users` service `created` event to the `admins` channel
   // app.service('users').publish('created', () => app.channel('admins'));
   
+  app.service('messages').publish('created', async (message: MessageType) => {
+    const user = await app.service('users').get(message.userId);
+    return app.channel(`channels/${message.channelId}`).send({ ...message, user});
+  });
+
   // With the userid and email organization from above you can easily select involved users
   // app.service('messages').publish(() => {
   //   return [
